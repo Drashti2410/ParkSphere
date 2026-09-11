@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ParkSphere Dashboard</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #111; color: #eee; }
+    .card { background: #222; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+    .free { color: #4ade80; } .occupied { color: #f87171; }
+  </style>
+</head>
+<body>
+  <h1>🅿️ ParkSphere Live Status</h1>
+  <div class="card" id="stats">Loading stats...</div>
+  <div class="card">
+    <h3>Recent Events</h3>
+    <table id="events" width="100%"></table>
+  </div>
+  <script>
+    async function refresh() {
+      const stats = await (await fetch("http://localhost:8000/stats")).json();
+      document.getElementById("stats").innerHTML =
+        `Total events: ${stats.total_events} | Occupied: ${stats.occupied_pct}%`;
+
+      const events = await (await fetch("http://localhost:8000/history?limit=10")).json();
+      document.getElementById("events").innerHTML = events.map(e =>
+        `<tr><td>${new Date(e.timestamp).toLocaleTimeString()}</td>
+         <td class="${e.slot_status.toLowerCase()}">${e.slot_status}</td>
+         <td>${e.gate_status}</td></tr>`).join("");
+    }
+    refresh();
+    setInterval(refresh, 3000);
+  </script>
+</body>
+</html>
