@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+sqlalchemy
+kafka-python
+pytest
+httpx
