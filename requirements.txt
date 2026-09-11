@@ -1,0 +1,18 @@
+# Full project dependencies: hardware controller + Kafka streaming + API/dashboard stack.
+# For just the API container, see requirements-api.txt (used by the Dockerfile).
+
+# Hardware / PubNub (Raspberry Pi)
+pubnub
+RPi.GPIO ; platform_machine == "armv6l" or platform_machine == "armv7l" or platform_machine == "aarch64"
+
+# Kafka streaming
+kafka-python
+
+# API + database
+fastapi
+uvicorn
+sqlalchemy
+
+# Testing
+pytest
+httpx
